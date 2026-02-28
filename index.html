@@ -6,51 +6,211 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Yashsanvi Enterprises provides reliable electrical supply, installation and maintenance services for residential, government, commercial and industrial clients.">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Space Grotesk', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e3a5f',
+              900: '#0f1f3a',
+              950: '#0a1628',
+            },
+            accent: {
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+            },
+            electric: {
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            }
+          }
+        }
+      }
+    }
+  </script>
   <style>
-    /* Helps fixed header not cover anchor targets */
     html { scroll-behavior: smooth; }
+
+    /* Scroll-triggered animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* Hero gradient animation */
+    @keyframes gradient-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .animated-gradient {
+      background-size: 200% 200%;
+      animation: gradient-shift 8s ease infinite;
+    }
+
+    /* Glow effect for cards */
+    .card-glow {
+      position: relative;
+      overflow: hidden;
+    }
+    .card-glow::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+    .card-glow:hover::before {
+      opacity: 1;
+    }
+
+    /* Floating animation for hero badges */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .float-anim { animation: float 3s ease-in-out infinite; }
+    .float-anim-delay { animation: float 3s ease-in-out 0.5s infinite; }
+    .float-anim-delay-2 { animation: float 3s ease-in-out 1s infinite; }
+
+    /* Pulse ring for CTA */
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.4); }
+      70% { box-shadow: 0 0 0 12px rgba(234, 179, 8, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); }
+    }
+    .pulse-cta { animation: pulse-ring 2.5s infinite; }
+
+    /* Smooth underline for nav links */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+      border-radius: 1px;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+    /* Stats counter animation */
+    @keyframes count-up {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .stat-number.visible {
+      animation: count-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Form input focus glow */
+    .input-glow:focus {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Service card image zoom */
+    .service-img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .service-card:hover .service-img {
+      transform: scale(1.08);
+    }
+
+    /* Noise texture overlay */
+    .noise-overlay::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
   </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="bg-brand-50/30 text-gray-800 antialiased font-sans">
 
 <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[60] focus:bg-white focus:text-gray-900 focus:px-4 focus:py-2 focus:rounded-md">
   Skip to content
 </a>
 
 <!-- Header -->
-<header class="bg-white/95 backdrop-blur shadow-sm fixed w-full z-50 border-b border-gray-100">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-    <div class="flex items-center gap-3">
-      <div class="h-10 w-10 rounded-lg bg-blue-800 text-white grid place-items-center font-bold">YE</div>
-      <div>
-        <h1 class="text-lg sm:text-xl font-bold text-blue-900 leading-tight">Yashsanvi Enterprises</h1>
-        <p class="text-xs sm:text-sm text-gray-600">Electrical Supply • Installation • Maintenance</p>
+<header class="bg-white/80 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.05)] fixed w-full z-50 border-b border-gray-100/80">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex justify-between items-center">
+    <a href="#" class="flex items-center gap-3 group">
+      <div class="h-11 w-11 rounded-xl bg-gradient-to-br from-brand-700 to-electric-600 text-white grid place-items-center font-bold text-lg shadow-lg shadow-brand-700/20 group-hover:shadow-brand-700/30 transition-shadow">
+        YE
       </div>
-    </div>
+      <div>
+        <h1 class="text-lg sm:text-xl font-bold font-display text-brand-900 leading-tight tracking-tight">Yashsanvi Enterprises</h1>
+        <p class="text-[11px] sm:text-xs text-gray-500 font-medium tracking-wide uppercase">Electrical Supply &bull; Installation &bull; Maintenance</p>
+      </div>
+    </a>
 
-    <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-      <a href="#about" class="hover:text-blue-700">About</a>
-      <a href="#services" class="hover:text-blue-700">Services</a>
-      <a href="#contact" class="hover:text-blue-700">Contact</a>
-      <a href="#contact" class="inline-flex items-center justify-center bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg">
+    <nav class="hidden md:flex items-center gap-1 text-sm font-medium">
+      <a href="#about" class="nav-link px-4 py-2 text-gray-600 hover:text-brand-700 rounded-lg transition-colors">About</a>
+      <a href="#services" class="nav-link px-4 py-2 text-gray-600 hover:text-brand-700 rounded-lg transition-colors">Services</a>
+      <a href="#contact" class="nav-link px-4 py-2 text-gray-600 hover:text-brand-700 rounded-lg transition-colors">Contact</a>
+      <a href="#contact" class="ml-3 inline-flex items-center justify-center bg-gradient-to-r from-brand-700 to-electric-600 hover:from-brand-800 hover:to-electric-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-brand-700/20 hover:shadow-brand-700/30 transition-all duration-300 hover:-translate-y-0.5">
         Request a Quote
+        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
       </a>
     </nav>
 
-    <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-lg border border-gray-200 hover:bg-gray-50" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
+    <button id="mobileMenuBtn" class="md:hidden inline-flex items-center justify-center h-10 w-10 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors" aria-label="Open menu" aria-controls="mobileMenu" aria-expanded="false">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
         <path fill-rule="evenodd" d="M3 5h14a1 1 0 0 1 0 2H3a1 1 0 1 1 0-2Zm0 6h14a1 1 0 0 1 0 2H3a1 1 0 1 1 0-2Zm0 6h14a1 1 0 0 1 0 2H3a1 1 0 1 1 0-2Z" clip-rule="evenodd" />
       </svg>
     </button>
   </div>
 
-  <div id="mobileMenu" class="md:hidden hidden border-t border-gray-100 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-col gap-2 text-sm font-medium">
-      <a href="#about" class="py-2">About</a>
-      <a href="#services" class="py-2">Services</a>
-      <a href="#contact" class="py-2">Contact</a>
-      <a href="#contact" class="mt-1 inline-flex items-center justify-center bg-blue-800 hover:bg-blue-900 text-white px-4 py-2 rounded-lg">
+  <div id="mobileMenu" class="md:hidden hidden border-t border-gray-100 bg-white/95 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-1 text-sm font-medium">
+      <a href="#about" class="py-2.5 px-3 rounded-lg hover:bg-gray-50 transition-colors">About</a>
+      <a href="#services" class="py-2.5 px-3 rounded-lg hover:bg-gray-50 transition-colors">Services</a>
+      <a href="#contact" class="py-2.5 px-3 rounded-lg hover:bg-gray-50 transition-colors">Contact</a>
+      <a href="#contact" class="mt-2 inline-flex items-center justify-center bg-gradient-to-r from-brand-700 to-electric-600 text-white px-4 py-2.5 rounded-xl font-semibold">
         Request a Quote
       </a>
     </div>
@@ -58,185 +218,340 @@
 </header>
 
 <!-- Hero Section -->
-<main id="main" class="pt-16">
+<main id="main" class="pt-[68px]">
 
-<!-- Hero Section -->
-<section class="relative">
-  <!-- Validated Unsplash electrical panel image -->
+<section class="relative overflow-hidden min-h-[600px] sm:min-h-[640px]">
   <img src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=1600"
-       class="w-full h-[520px] sm:h-[560px] object-cover"
+       class="absolute inset-0 w-full h-full object-cover scale-105"
        alt="Electrical control panel installation">
-  
-  <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-full flex items-center">
-      <div class="text-white max-w-2xl">
-        <p class="inline-flex items-center gap-2 text-sm bg-white/10 border border-white/20 px-3 py-1 rounded-full">
-          <span class="h-2 w-2 rounded-full bg-yellow-400"></span>
+
+  <!-- Multi-layer overlay for depth -->
+  <div class="absolute inset-0 bg-gradient-to-br from-brand-950/90 via-brand-900/80 to-electric-600/40 animated-gradient"></div>
+  <div class="absolute inset-0 noise-overlay"></div>
+
+  <!-- Decorative elements -->
+  <div class="absolute top-20 right-10 w-72 h-72 bg-electric-400/10 rounded-full blur-3xl"></div>
+  <div class="absolute bottom-10 left-10 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full min-h-[600px] sm:min-h-[640px] flex items-center">
+    <div class="text-white max-w-2xl py-16">
+      <div class="reveal">
+        <p class="inline-flex items-center gap-2.5 text-sm bg-white/10 backdrop-blur-md border border-white/15 px-4 py-1.5 rounded-full font-medium">
+          <span class="relative flex h-2.5 w-2.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent-400"></span>
+          </span>
           Safe. Reliable. On time.
         </p>
-        <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mt-4 leading-tight">
-          Reliable Electrical Supply & Service Solutions
-        </h2>
-        <p class="mt-4 text-base sm:text-lg text-white/90">
-          Serving residential, government, commercial & industrial clients with quality components, expert installation, and dependable maintenance.
-        </p>
+      </div>
 
-        <div class="mt-7 flex flex-col sm:flex-row gap-3">
-          <a href="#contact" class="inline-flex items-center justify-center bg-yellow-500 hover:bg-yellow-600 text-gray-900 px-6 py-3 rounded-lg font-semibold">
-            Request a Quote
-          </a>
-          <a href="#services" class="inline-flex items-center justify-center bg-white/10 hover:bg-white/15 border border-white/20 text-white px-6 py-3 rounded-lg font-semibold">
-            View Services
-          </a>
+      <h2 class="reveal reveal-delay-1 font-display text-4xl sm:text-5xl md:text-6xl font-bold mt-6 leading-[1.1] tracking-tight">
+        Reliable Electrical
+        <span class="bg-gradient-to-r from-accent-400 to-accent-500 bg-clip-text text-transparent"> Supply</span> &
+        <span class="bg-gradient-to-r from-electric-400 to-electric-500 bg-clip-text text-transparent">Service</span> Solutions
+      </h2>
+
+      <p class="reveal reveal-delay-2 mt-5 text-base sm:text-lg text-white/80 leading-relaxed max-w-xl">
+        Serving residential, government, commercial & industrial clients with quality components, expert installation, and dependable maintenance.
+      </p>
+
+      <div class="reveal reveal-delay-3 mt-8 flex flex-col sm:flex-row gap-4">
+        <a href="#contact" class="pulse-cta inline-flex items-center justify-center bg-gradient-to-r from-accent-500 to-accent-400 hover:from-accent-600 hover:to-accent-500 text-brand-950 px-7 py-3.5 rounded-xl font-bold text-base shadow-xl shadow-accent-500/25 hover:shadow-accent-500/40 transition-all duration-300 hover:-translate-y-0.5">
+          Request a Quote
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="#services" class="inline-flex items-center justify-center bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white px-7 py-3.5 rounded-xl font-semibold text-base transition-all duration-300 hover:-translate-y-0.5">
+          View Services
+        </a>
+      </div>
+
+      <div class="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+        <div class="float-anim bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-4 hover:bg-white/[0.12] transition-colors">
+          <div class="h-10 w-10 rounded-xl bg-accent-400/20 grid place-items-center mb-3">
+            <svg class="w-5 h-5 text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <p class="font-semibold text-sm">Certified Team</p>
+          <p class="text-white/60 text-xs mt-0.5">Safety-first work</p>
         </div>
-
-        <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
-          <div class="bg-white/10 border border-white/15 rounded-xl p-4">
-            <p class="font-semibold">Certified team</p>
-            <p class="text-white/80">Safety-first work</p>
+        <div class="float-anim-delay bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-4 hover:bg-white/[0.12] transition-colors">
+          <div class="h-10 w-10 rounded-xl bg-electric-400/20 grid place-items-center mb-3">
+            <svg class="w-5 h-5 text-electric-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
           </div>
-          <div class="bg-white/10 border border-white/15 rounded-xl p-4">
-            <p class="font-semibold">Quality supply</p>
-            <p class="text-white/80">Trusted components</p>
+          <p class="font-semibold text-sm">Quality Supply</p>
+          <p class="text-white/60 text-xs mt-0.5">Trusted components</p>
+        </div>
+        <div class="float-anim-delay-2 bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-4 col-span-2 sm:col-span-1 hover:bg-white/[0.12] transition-colors">
+          <div class="h-10 w-10 rounded-xl bg-green-400/20 grid place-items-center mb-3">
+            <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           </div>
-          <div class="bg-white/10 border border-white/15 rounded-xl p-4 col-span-2 sm:col-span-1">
-            <p class="font-semibold">Fast response</p>
-            <p class="text-white/80">Quick inspections</p>
-          </div>
+          <p class="font-semibold text-sm">Fast Response</p>
+          <p class="text-white/60 text-xs mt-0.5">Quick inspections</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- Stats Bar -->
+<section class="relative -mt-8 z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 p-6 sm:p-8 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+    <div class="text-center reveal">
+      <p class="stat-number text-3xl sm:text-4xl font-bold font-display bg-gradient-to-r from-brand-700 to-electric-600 bg-clip-text text-transparent">500+</p>
+      <p class="mt-1 text-sm text-gray-500 font-medium">Projects Completed</p>
+    </div>
+    <div class="text-center reveal reveal-delay-1">
+      <p class="stat-number text-3xl sm:text-4xl font-bold font-display bg-gradient-to-r from-brand-700 to-electric-600 bg-clip-text text-transparent">6+</p>
+      <p class="mt-1 text-sm text-gray-500 font-medium">Branch Locations</p>
+    </div>
+    <div class="text-center reveal reveal-delay-2">
+      <p class="stat-number text-3xl sm:text-4xl font-bold font-display bg-gradient-to-r from-brand-700 to-electric-600 bg-clip-text text-transparent">24/7</p>
+      <p class="mt-1 text-sm text-gray-500 font-medium">Emergency Support</p>
+    </div>
+    <div class="text-center reveal reveal-delay-3">
+      <p class="stat-number text-3xl sm:text-4xl font-bold font-display bg-gradient-to-r from-brand-700 to-electric-600 bg-clip-text text-transparent">100%</p>
+      <p class="mt-1 text-sm text-gray-500 font-medium">Safety Compliance</p>
+    </div>
+  </div>
+</section>
+
 <!-- About Section -->
-<!-- About Section -->
-<section id="about" class="scroll-mt-24 py-14 sm:py-16 max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-10 items-center">
+<section id="about" class="scroll-mt-24 py-20 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
   <div>
-    <h3 class="text-2xl sm:text-3xl font-bold text-blue-900 mb-4">About</h3>
-    <p class="text-gray-700 leading-relaxed">
-      Yashsanvi Enterprises provides high-quality electrical products and dependable services for projects of all sizes.
-      We focus on safe execution, clear communication, and cost-effective solutions tailored to your site requirements.
-    </p>
+    <div class="reveal">
+      <p class="text-sm font-semibold text-electric-600 uppercase tracking-widest mb-3">Who We Are</p>
+      <h3 class="text-3xl sm:text-4xl font-bold font-display text-brand-900 leading-tight tracking-tight">Powering India's Growth With Reliable Solutions</h3>
+      <p class="mt-5 text-gray-600 leading-relaxed text-base">
+        Yashsanvi Enterprises provides high-quality electrical products and dependable services for projects of all sizes.
+        We focus on safe execution, clear communication, and cost-effective solutions tailored to your site requirements.
+      </p>
+    </div>
 
-    <div class="mt-6 grid sm:grid-cols-2 gap-4">
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p class="font-semibold">Experienced technicians</p>
-        <p class="text-sm text-gray-600 mt-1">Certified, safety-compliant work practices.</p>
+    <div class="mt-8 grid sm:grid-cols-2 gap-4">
+      <div class="reveal card-glow bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg p-5 transition-all duration-300 hover:-translate-y-1">
+        <div class="h-10 w-10 rounded-xl bg-brand-100 grid place-items-center mb-3">
+          <svg class="w-5 h-5 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+        </div>
+        <p class="font-semibold text-brand-900">Experienced Technicians</p>
+        <p class="text-sm text-gray-500 mt-1">Certified, safety-compliant work practices.</p>
       </div>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p class="font-semibold">Quality components</p>
-        <p class="text-sm text-gray-600 mt-1">Reliable cables, switchgear and panels.</p>
+      <div class="reveal reveal-delay-1 card-glow bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg p-5 transition-all duration-300 hover:-translate-y-1">
+        <div class="h-10 w-10 rounded-xl bg-electric-100 grid place-items-center mb-3">
+          <svg class="w-5 h-5 text-electric-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+        </div>
+        <p class="font-semibold text-brand-900">Quality Components</p>
+        <p class="text-sm text-gray-500 mt-1">Reliable cables, switchgear and panels.</p>
       </div>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p class="font-semibold">Timely execution</p>
-        <p class="text-sm text-gray-600 mt-1">Planned delivery with clear milestones.</p>
+      <div class="reveal reveal-delay-2 card-glow bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg p-5 transition-all duration-300 hover:-translate-y-1">
+        <div class="h-10 w-10 rounded-xl bg-green-100 grid place-items-center mb-3">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <p class="font-semibold text-brand-900">Timely Execution</p>
+        <p class="text-sm text-gray-500 mt-1">Planned delivery with clear milestones.</p>
       </div>
-      <div class="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
-        <p class="font-semibold">Competitive pricing</p>
-        <p class="text-sm text-gray-600 mt-1">Transparent quote and scope.</p>
+      <div class="reveal reveal-delay-3 card-glow bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg p-5 transition-all duration-300 hover:-translate-y-1">
+        <div class="h-10 w-10 rounded-xl bg-accent-400/20 grid place-items-center mb-3">
+          <svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <p class="font-semibold text-brand-900">Competitive Pricing</p>
+        <p class="text-sm text-gray-500 mt-1">Transparent quote and scope.</p>
       </div>
     </div>
   </div>
 
-  <img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=1000&q=80"
-      class="rounded-2xl shadow-lg w-full h-[320px] sm:h-[420px] object-cover"
-       alt="Industrial electrical workspace">
+  <div class="reveal">
+    <div class="relative">
+      <img src="https://images.unsplash.com/photo-1581092335397-9583eb92d232?auto=format&fit=crop&w=1000&q=80"
+           class="rounded-3xl shadow-2xl shadow-gray-300/40 w-full h-[350px] sm:h-[440px] object-cover"
+           alt="Industrial electrical workspace">
+      <!-- Decorative accent -->
+      <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-gradient-to-br from-accent-400 to-accent-500 rounded-2xl -z-10 hidden sm:block"></div>
+      <div class="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-electric-400 to-electric-500 rounded-2xl -z-10 hidden sm:block"></div>
+    </div>
+  </div>
 </section>
 
 <!-- Services Section -->
-<!-- Services Section -->
-<section id="services" class="scroll-mt-24 bg-white py-14 sm:py-16">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="text-center">
-      <h3 class="text-2xl sm:text-3xl font-bold text-blue-900">Our Services</h3>
-      <p class="mt-3 text-gray-600 max-w-2xl mx-auto">Supply, installation and maintenance with safety and quality at every step.</p>
+<section id="services" class="scroll-mt-24 relative overflow-hidden bg-white py-20 sm:py-24">
+  <!-- Decorative background -->
+  <div class="absolute top-0 right-0 w-96 h-96 bg-brand-100/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+  <div class="absolute bottom-0 left-0 w-80 h-80 bg-electric-100/40 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center reveal">
+      <p class="text-sm font-semibold text-electric-600 uppercase tracking-widest mb-3">What We Offer</p>
+      <h3 class="text-3xl sm:text-4xl font-bold font-display text-brand-900 tracking-tight">Our Services</h3>
+      <p class="mt-4 text-gray-500 max-w-2xl mx-auto text-base">Supply, installation and maintenance with safety and quality at every step.</p>
     </div>
 
-    <div class="mt-10 grid md:grid-cols-3 gap-8">
-      
-      <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-        <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80"
-             class="h-40 w-full object-cover rounded-md mb-4"
-             alt="Electrical installation work">
-        <h4 class="text-xl font-semibold mb-2">Electrical Installation</h4>
-        <p class="text-gray-700">Complete wiring and installation for residential and commercial buildings.</p>
+    <div class="mt-14 grid md:grid-cols-3 gap-8">
+
+      <div class="reveal service-card group bg-gray-50/80 backdrop-blur p-2 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+        <div class="overflow-hidden rounded-2xl">
+          <img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=80"
+               class="service-img h-48 w-full object-cover"
+               alt="Electrical installation work">
+        </div>
+        <div class="p-5">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold text-electric-600 bg-electric-100 px-3 py-1 rounded-full mb-3">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            Installation
+          </div>
+          <h4 class="text-xl font-bold font-display text-brand-900 mb-2">Electrical Installation</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">Complete wiring and installation for residential and commercial buildings with safety-first execution.</p>
+          <a href="#contact" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-700 hover:text-brand-800 group/link">
+            Get a Quote
+            <svg class="ml-1.5 w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
       </div>
 
-      <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-        <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
-             class="h-40 w-full object-cover rounded-md mb-4"
-             alt="Industrial electrical supply">
-        <h4 class="text-xl font-semibold mb-2">Industrial Supply</h4>
-        <p class="text-gray-700">Supply of cables, switchgear, distribution boards and electrical components.</p>
+      <div class="reveal reveal-delay-1 service-card group bg-gray-50/80 backdrop-blur p-2 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+        <div class="overflow-hidden rounded-2xl">
+          <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?auto=format&fit=crop&w=800&q=80"
+               class="service-img h-48 w-full object-cover"
+               alt="Industrial electrical supply">
+        </div>
+        <div class="p-5">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold text-accent-600 bg-accent-400/15 px-3 py-1 rounded-full mb-3">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+            Supply
+          </div>
+          <h4 class="text-xl font-bold font-display text-brand-900 mb-2">Industrial Supply</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">Supply of cables, switchgear, distribution boards and quality electrical components.</p>
+          <a href="#contact" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-700 hover:text-brand-800 group/link">
+            Get a Quote
+            <svg class="ml-1.5 w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
       </div>
 
-      <!-- Updated Maintenance Image -->
-      <div class="bg-gray-50 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition">
-        <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=800&q=80"
-             class="h-40 w-full object-cover rounded-md mb-4"
-             alt="Electrical maintenance service">
-        <h4 class="text-xl font-semibold mb-2">Maintenance & Repair</h4>
-        <p class="text-gray-700">Professional inspection, troubleshooting and electrical safety services.</p>
+      <div class="reveal reveal-delay-2 service-card group bg-gray-50/80 backdrop-blur p-2 rounded-3xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-2">
+        <div class="overflow-hidden rounded-2xl">
+          <img src="https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=800&q=80"
+               class="service-img h-48 w-full object-cover"
+               alt="Electrical maintenance service">
+        </div>
+        <div class="p-5">
+          <div class="inline-flex items-center gap-2 text-xs font-semibold text-green-600 bg-green-100 px-3 py-1 rounded-full mb-3">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Maintenance
+          </div>
+          <h4 class="text-xl font-bold font-display text-brand-900 mb-2">Maintenance & Repair</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">Professional inspection, troubleshooting and electrical safety services for all installations.</p>
+          <a href="#contact" class="mt-4 inline-flex items-center text-sm font-semibold text-brand-700 hover:text-brand-800 group/link">
+            Get a Quote
+            <svg class="ml-1.5 w-4 h-4 transition-transform group-hover/link:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- Contact Form -->
 <!-- Contact Section -->
-<section id="contact" class="scroll-mt-24 py-14 sm:py-16 bg-gray-100">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="text-center">
-      <h3 class="text-2xl sm:text-3xl font-bold text-blue-900">Send an Enquiry</h3>
-      <p class="mt-3 text-gray-600 max-w-2xl mx-auto">Tell us about your requirement and we’ll get back with a quote.</p>
+<section id="contact" class="scroll-mt-24 py-20 sm:py-24 relative overflow-hidden">
+  <!-- Background pattern -->
+  <div class="absolute inset-0 bg-gradient-to-b from-gray-50 to-brand-50/50"></div>
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-electric-100/30 rounded-full blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center reveal">
+      <p class="text-sm font-semibold text-electric-600 uppercase tracking-widest mb-3">Get In Touch</p>
+      <h3 class="text-3xl sm:text-4xl font-bold font-display text-brand-900 tracking-tight">Send an Enquiry</h3>
+      <p class="mt-4 text-gray-500 max-w-2xl mx-auto text-base">Tell us about your requirement and we'll get back with a quote.</p>
     </div>
 
-    <div class="mt-10 grid lg:grid-cols-2 gap-8 items-start">
-      <form id="enquiryForm" class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100 space-y-5" novalidate>
+    <div class="mt-12 grid lg:grid-cols-5 gap-8 items-start">
+      <form id="enquiryForm" class="reveal lg:col-span-3 bg-white p-6 sm:p-8 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100 space-y-5">
         <div class="grid sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700">Full Name</label>
-            <input name="name" type="text" autocomplete="name" required minlength="2" placeholder="Your full name" class="mt-1 w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-600" />
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Full Name</label>
+            <input name="name" type="text" autocomplete="name" required minlength="2" placeholder="Your full name" title="Please enter your full name (at least 2 characters)"
+                   class="input-glow w-full border border-gray-200 rounded-xl p-3.5 text-sm bg-gray-50/50 focus:bg-white focus:border-brand-400 focus:ring-0 outline-none transition-all" />
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700">Phone</label>
-            <input name="phone" type="tel" autocomplete="tel" required placeholder="Phone number" class="mt-1 w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-600" />
+            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Phone</label>
+            <input name="phone" type="tel" autocomplete="tel" required pattern="[0-9]{10}" placeholder="10 digit phone number" title="Please enter a valid 10 digit phone number"
+                   class="input-glow w-full border border-gray-200 rounded-xl p-3.5 text-sm bg-gray-50/50 focus:bg-white focus:border-brand-400 focus:ring-0 outline-none transition-all" />
           </div>
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">Email</label>
-          <input name="email" type="email" autocomplete="email" required placeholder="you@example.com" class="mt-1 w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-600" />
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
+          <input name="email" type="email" autocomplete="email" required placeholder="you@example.com" title="Please enter a valid email address"
+                 class="input-glow w-full border border-gray-200 rounded-xl p-3.5 text-sm bg-gray-50/50 focus:bg-white focus:border-brand-400 focus:ring-0 outline-none transition-all" />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700">Message</label>
-          <textarea name="message" rows="5" required minlength="10" placeholder="Briefly describe your requirement" class="mt-1 w-full border rounded-lg p-3 focus:ring-2 focus:ring-blue-600"></textarea>
+          <label class="block text-sm font-semibold text-gray-700 mb-1.5">Message</label>
+          <textarea name="message" rows="5" required minlength="10" placeholder="Briefly describe your requirement" title="Please enter at least 10 characters"
+                    class="input-glow w-full border border-gray-200 rounded-xl p-3.5 text-sm bg-gray-50/50 focus:bg-white focus:border-brand-400 focus:ring-0 outline-none transition-all resize-none"></textarea>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+        <div class="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between pt-2">
           <p id="formStatus" class="text-sm text-gray-600" aria-live="polite"></p>
-          <button id="enquirySubmitBtn" type="submit" class="w-full sm:w-auto bg-blue-800 hover:bg-blue-900 text-white px-6 py-3 rounded-lg font-semibold">
+          <button id="enquirySubmitBtn" type="submit"
+                  class="w-full sm:w-auto bg-gradient-to-r from-brand-700 to-electric-600 hover:from-brand-800 hover:to-electric-700 text-white px-8 py-3.5 rounded-xl font-semibold shadow-lg shadow-brand-700/20 hover:shadow-brand-700/30 transition-all duration-300 hover:-translate-y-0.5">
             Submit Enquiry
+            <svg class="inline ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </button>
         </div>
-        <p class="text-xs text-gray-500">By submitting, you agree to be contacted regarding your enquiry.</p>
+        <p class="text-xs text-gray-400">By submitting, you agree to be contacted regarding your enquiry.</p>
       </form>
 
-      <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100">
-        <h4 class="text-lg font-semibold text-gray-900">Contact Details</h4>
-        <div class="mt-4 space-y-2 text-gray-700">
-          <p><span class="font-medium">Phone:</span> <a class="text-blue-800 hover:underline" href="tel:+919852710316">+91-9852710316</a></p>
-          <p><span class="font-medium">Email:</span> <a class="text-blue-800 hover:underline" href="mailto:yashsanvienterprises@gmail.com">yashsanvienterprises@gmail.com</a></p>
-          <p class="pt-2"><span class="font-medium">Address:</span><br>Head Office — Yashsanvi Enterprises Pvt Ltd<br>656 Aditya Nagar Colony, Bhiti Ramanager<br>Varanasi, Uttar Pradesh 221008</p>
-          <p class="pt-2"><span class="font-medium">Business Hours:</span> Mon–Sat, 9:00 AM – 7:00 PM</p>
+      <div class="reveal reveal-delay-1 lg:col-span-2 space-y-6">
+        <div class="bg-white p-6 sm:p-7 rounded-3xl shadow-xl shadow-gray-200/40 border border-gray-100">
+          <h4 class="text-lg font-bold font-display text-brand-900 mb-5">Contact Details</h4>
+          <div class="space-y-4">
+            <a href="tel:+919852710316" class="flex items-start gap-4 group p-3 -mx-3 rounded-xl hover:bg-brand-50 transition-colors">
+              <div class="h-10 w-10 shrink-0 rounded-xl bg-brand-100 grid place-items-center">
+                <svg class="w-5 h-5 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Phone</p>
+                <p class="text-brand-800 font-semibold group-hover:text-brand-700">+91-9852710316</p>
+              </div>
+            </a>
+            <a href="mailto:yashsanvienterprises@gmail.com" class="flex items-start gap-4 group p-3 -mx-3 rounded-xl hover:bg-brand-50 transition-colors">
+              <div class="h-10 w-10 shrink-0 rounded-xl bg-electric-100 grid place-items-center">
+                <svg class="w-5 h-5 text-electric-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Email</p>
+                <p class="text-brand-800 font-semibold group-hover:text-brand-700 break-all">yashsanvienterprises@gmail.com</p>
+              </div>
+            </a>
+            <div class="flex items-start gap-4 p-3 -mx-3">
+              <div class="h-10 w-10 shrink-0 rounded-xl bg-accent-400/15 grid place-items-center">
+                <svg class="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Head Office</p>
+                <p class="text-gray-700 text-sm leading-relaxed">Yashsanvi Enterprises Pvt Ltd<br>656 Aditya Nagar Colony, Bhiti Ramanager<br>Varanasi, UP 221008</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4 p-3 -mx-3">
+              <div class="h-10 w-10 shrink-0 rounded-xl bg-green-100 grid place-items-center">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400 font-medium uppercase tracking-wide">Business Hours</p>
+                <p class="text-gray-700 text-sm font-medium">Mon–Sat, 9:00 AM – 7:00 PM</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="mt-6">
-          <h5 class="text-sm font-semibold text-gray-900">Other Branches</h5>
-          <p class="mt-2 text-gray-700">Delhi • Lucknow • Gorakhpur • Bhabua • Patna</p>
+        <div class="bg-gradient-to-br from-brand-800 to-brand-900 p-6 rounded-3xl text-white">
+          <h5 class="font-bold font-display text-lg mb-3">Other Branches</h5>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-white/10 backdrop-blur border border-white/10 text-sm px-3.5 py-1.5 rounded-full">Delhi</span>
+            <span class="bg-white/10 backdrop-blur border border-white/10 text-sm px-3.5 py-1.5 rounded-full">Lucknow</span>
+            <span class="bg-white/10 backdrop-blur border border-white/10 text-sm px-3.5 py-1.5 rounded-full">Gorakhpur</span>
+            <span class="bg-white/10 backdrop-blur border border-white/10 text-sm px-3.5 py-1.5 rounded-full">Bhabua</span>
+            <span class="bg-white/10 backdrop-blur border border-white/10 text-sm px-3.5 py-1.5 rounded-full">Patna</span>
+          </div>
         </div>
       </div>
     </div>
@@ -244,27 +559,34 @@
 </section>
 
 <!-- Footer -->
-<footer class="bg-gray-900 text-gray-300 pt-12 pb-8">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+<footer class="relative overflow-hidden bg-brand-950 text-gray-300 pt-16 pb-8">
+  <!-- Decorative top border -->
+  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-700 via-electric-500 to-accent-400"></div>
+  <div class="absolute top-20 right-0 w-96 h-96 bg-brand-800/30 rounded-full blur-3xl"></div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
     <div>
-      <h4 class="text-white font-bold mb-3">Yashsanvi Enterprises</h4>
-      <p class="text-sm text-gray-300">Reliable electrical supply, installation and maintenance for residential, commercial and industrial sectors.</p>
-      <p class="text-sm text-gray-400 mt-4">Varanasi, Uttar Pradesh</p>
+      <div class="flex items-center gap-3 mb-5">
+        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-brand-600 to-electric-500 text-white grid place-items-center font-bold shadow-lg">YE</div>
+        <h4 class="text-white font-bold font-display text-lg">Yashsanvi</h4>
+      </div>
+      <p class="text-sm text-gray-400 leading-relaxed">Reliable electrical supply, installation and maintenance for residential, commercial and industrial sectors.</p>
+      <p class="text-sm text-gray-500 mt-4">Varanasi, Uttar Pradesh</p>
     </div>
 
     <div>
-      <h4 class="text-white font-bold mb-3">Quick Links</h4>
-      <ul class="space-y-2 text-sm">
-        <li><a href="#about" class="hover:text-white">About</a></li>
-        <li><a href="#services" class="hover:text-white">Services</a></li>
-        <li><a href="#contact" class="hover:text-white">Enquiry</a></li>
+      <h4 class="text-white font-bold font-display mb-4">Quick Links</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">About</a></li>
+        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Services</a></li>
+        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Enquiry</a></li>
       </ul>
     </div>
 
     <div>
-      <h4 class="text-white font-bold mb-3">Services</h4>
-      <ul class="space-y-2 text-sm">
+      <h4 class="text-white font-bold font-display mb-4">Services</h4>
+      <ul class="space-y-2.5 text-sm text-gray-400">
         <li>Electrical Installation</li>
         <li>Industrial Electrical Supply</li>
         <li>Maintenance & Repair</li>
@@ -272,22 +594,34 @@
     </div>
 
     <div>
-      <h4 class="text-white font-bold mb-3">Contact</h4>
-      <ul class="space-y-2 text-sm">
-        <li><span class="text-gray-400">Phone:</span> <a class="hover:text-white" href="tel:+919852710316">+91-9852710316</a></li>
-        <li><span class="text-gray-400">Email:</span> <a class="hover:text-white" href="mailto:yashsanvienterprises@gmail.com">yashsanvienterprises@gmail.com</a></li>
-        <li><span class="text-gray-400">Hours:</span> Mon–Sat, 9:00 AM – 7:00 PM</li>
-        <li class="pt-2"><span class="text-gray-400">Branches:</span> Delhi • Lucknow • Gorakhpur • Bhabua • Patna</li>
+      <h4 class="text-white font-bold font-display mb-4">Contact</h4>
+      <ul class="space-y-2.5 text-sm">
+        <li class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+          <a class="text-gray-400 hover:text-white transition-colors" href="tel:+919852710316">+91-9852710316</a>
+        </li>
+        <li class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <a class="text-gray-400 hover:text-white transition-colors break-all" href="mailto:yashsanvienterprises@gmail.com">yashsanvienterprises@gmail.com</a>
+        </li>
+        <li class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-gray-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="text-gray-400">Mon–Sat, 9:00 AM – 7:00 PM</span>
+        </li>
+        <li class="pt-1 flex items-start gap-2">
+          <svg class="w-4 h-4 text-gray-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span class="text-gray-400">Delhi &bull; Lucknow &bull; Gorakhpur &bull; Bhabua &bull; Patna</span>
+        </li>
       </ul>
     </div>
 
   </div>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 mt-10 pt-6 border-t border-white/10 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-400">
-    <p>© 2026 Yashsanvi Enterprises. All Rights Reserved.</p>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between text-sm text-gray-500">
+    <p>&copy; 2026 Yashsanvi Enterprises. All Rights Reserved.</p>
     <p class="space-x-4">
-      <a href="#" class="hover:text-white">Privacy Policy</a>
-      <a href="#" class="hover:text-white">Terms</a>
+      <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+      <a href="#" class="hover:text-white transition-colors">Terms</a>
     </p>
   </div>
 </footer>
@@ -295,6 +629,17 @@
 </main>
 
 <script>
+  // Scroll reveal animation
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
   // Mobile menu
   const mobileMenuBtn = document.getElementById('mobileMenuBtn');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -313,7 +658,30 @@
     });
   }
 
-  // Enquiry form submission -> backend endpoint
+  // Header background on scroll
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header.classList.add('shadow-md');
+      header.classList.remove('shadow-[0_1px_3px_rgba(0,0,0,0.05)]');
+    } else {
+      header.classList.remove('shadow-md');
+      header.classList.add('shadow-[0_1px_3px_rgba(0,0,0,0.05)]');
+    }
+  }, { passive: true });
+
+  // ── GOOGLE FORM CONFIG ─────────────────────────────────────────────
+  // To set up: create a Google Form with 4 fields (Full Name, Phone,
+  // Email, Message). Then use "Get pre-filled link" to find each
+  // entry.XXXXXXXXXX ID. Replace the placeholders below.
+  const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdzRLa0ttlpptYqKLOQYmF0OMmIgnE7smD75HYsOzhLNv6ZCQ/formResponse';
+  const FIELD_NAME  = 'entry.96291927';  // Full Name field
+  const FIELD_PHONE = 'entry.518022764';  // Phone field
+  const FIELD_EMAIL = 'entry.688474330';  // Email field
+  const FIELD_MSG   = 'entry.1947450241';  // Message field
+  // ──────────────────────────────────────────────────────────────────
+
+  // Enquiry form submission
   const enquiryForm = document.getElementById('enquiryForm');
   const formStatus = document.getElementById('formStatus');
   const enquirySubmitBtn = document.getElementById('enquirySubmitBtn');
@@ -321,7 +689,7 @@
   function setStatus(message, isError = false) {
     if (!formStatus) return;
     formStatus.textContent = message;
-    formStatus.className = 'text-sm ' + (isError ? 'text-red-700' : 'text-gray-600');
+    formStatus.className = 'text-sm ' + (isError ? 'text-red-600 font-medium' : 'text-gray-600');
   }
 
   if (enquiryForm) {
@@ -340,30 +708,34 @@
       try {
         if (enquirySubmitBtn) {
           enquirySubmitBtn.disabled = true;
-          enquirySubmitBtn.classList.add('opacity-80', 'cursor-not-allowed');
+          enquirySubmitBtn.classList.add('opacity-70', 'cursor-not-allowed');
         }
         setStatus('Sending…');
 
-        const response = await fetch('/api/enquiry', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
+        const body = new URLSearchParams({
+          [FIELD_NAME]:  payload.name,
+          [FIELD_PHONE]: payload.phone,
+          [FIELD_EMAIL]: payload.email,
+          [FIELD_MSG]:   payload.message,
         });
 
-        const data = await response.json().catch(() => ({}));
+        await fetch(GOOGLE_FORM_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: body.toString(),
+        });
 
-        if (!response.ok) {
-          throw new Error(data?.error || 'Failed to send enquiry');
-        }
-
+        // no-cors mode won't return a readable response, but the
+        // submission still goes through to Google Forms
         setStatus('Enquiry sent successfully. We will contact you soon.');
         enquiryForm.reset();
       } catch (err) {
-        setStatus(err?.message || 'Something went wrong. Please try again.', true);
+        setStatus('Something went wrong. Please try again.', true);
       } finally {
         if (enquirySubmitBtn) {
           enquirySubmitBtn.disabled = false;
-          enquirySubmitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
+          enquirySubmitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
         }
       }
     });
